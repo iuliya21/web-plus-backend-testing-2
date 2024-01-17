@@ -21,37 +21,53 @@ describe('PostsService', () => {
     });
 
     it('should return all posts if called without options', () => {
-      const result = postsService.findMany();
-      expect(result).toEqual(posts);
-      expect(result).toHaveLength(posts.length);
+      const foundPosts = postsService.findMany();
+      const expectedPosts = [
+        {id: '1', text: 'Post 1'},
+        {id: '2', text: 'Post 2'},
+        {id: '3', text: 'Post 3'},
+        {id: '4', text: 'Post 4'},
+      ]
+      expect(foundPosts).toEqual(expectedPosts);
     });
 
     it('should return correct posts for skip and limit options', () => {
       const skip = 1;
       const limit = 2;
-      const expectedPosts = posts.slice(skip, skip + limit);
-      const result = postsService.findMany({ skip, limit });
+      const expectedPosts = [
+        {id: '2', text: 'Post 2'},
+        {id: '3', text: 'Post 3'}
+      ]
+      
+      const foundPosts = postsService.findMany({ skip, limit });
 
-      expect(result).toHaveLength(expectedPosts.length);
-      expect(result).toEqual(expectedPosts);
+      expect(foundPosts).toEqual(expectedPosts);
     });
 
     it('should return correct posts when skip parameter is used', () => {
       const skip = 2;
-      const expectedPosts = posts.slice(skip);
-      const result = postsService.findMany({ skip });
 
-      expect(result).toHaveLength(expectedPosts.length);
-      expect(result).toEqual(expectedPosts);
+      const expectedPosts = [
+        {id: '3', text: 'Post 3'},
+        {id: '4', text: 'Post 4'}
+      ]
+
+      const foundPosts = postsService.findMany({ skip });
+
+      expect(foundPosts).toEqual(expectedPosts);
     });
 
     it('should return correct posts when limit parameter is used', () => {
-      const limit = 2;
-      const expectedPosts = posts.slice(0, limit);
-      const result = postsService.findMany({ limit });
+      const limit = 3;
 
-      expect(result).toHaveLength(expectedPosts.length);
-      expect(result).toEqual(expectedPosts);
+      const expectedPosts = [
+        {id: '1', text: 'Post 1'},
+        {id: '2', text: 'Post 2'},
+        {id: '3', text: 'Post 3'}
+      ]
+      const foundPosts = postsService.findMany({ limit });
+
+      expect(foundPosts).toEqual(expectedPosts);
     });
   });
 });
